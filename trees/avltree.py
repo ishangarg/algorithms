@@ -75,6 +75,44 @@ class AVLTree:
             return self.left_rotate(root)
         
         return root
+    
+    def delete(self, root, val):
+        if not root:
+            return root
+        
+        if val < root.val:
+            root.left = self.delete(root.left, val)
+        elif val > root.val:
+            root.right = self.delete(root.right, val)
+        else:
+            if not root.left:
+                temp = root.right
+                root = None
+                return temp
+            elif not root.right:
+                temp = root.left
+                root = None
+                return temp
+            
+            temp = self.min_val_node(root.right)
+            root.val = temp.val
+            root.right = self.delete(root.right, temp.val)
+
+            if not root:
+                return root
+            
+            root.height = 1 + max(self.height(root.left), self.height(root.right))
+            balance_factor = self.get_balance_factor(root)
+
+            if balance_factor > 1 and self.get_balance_factor(root.left) >= 0:
+                return self.right_rotate(root)
+
+    def min_val_node(self, root):
+        current = root
+        while current.left:
+            current = current.left
+        
+        return current
 
     def insertVal(self,val):
         self.root = self.insert(self.root, val)
