@@ -17,4 +17,10 @@ def depthFirstPrint(graph, node):
         for n in graph[curr_node]:
             stack.append(n)
 
-depthFirstPrint(graph, 'a')
+def depthFirstRecursion(graph, node):
+    print(node)
+
+    for n in graph[node]:
+        depthFirstRecursion(graph, n)
+
+depthFirstRecursion(graph, 'a')
